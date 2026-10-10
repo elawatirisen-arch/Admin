@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ALIPSTORE Admin — Dashboard</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<!-- ================= LOGIN ================= -->
+<div class="login-wrap" id="loginScreen">
+  <div class="login-card">
+    <div class="login-mark">A</div>
+    <div class="login-title">ALIPSTORE Admin</div>
+    <div class="login-sub">Masuk untuk mengelola toko</div>
+    <div class="error-msg" id="loginError"></div>
+    <form id="loginForm">
+      <div class="field">
+        <label>Email Admin</label>
+        <input type="email" id="loginEmail" placeholder="admin@alipstore.com" required autocomplete="username">
+      </div>
+      <div class="field">
+        <label>Password</label>
+        <input type="password" id="loginPassword" placeholder="••••••••" required autocomplete="current-password">
+      </div>
+      <button class="btn btn-primary" id="loginBtn" type="submit" style="width:100%;justify-content:center;margin-top:6px;">Masuk ke Dashboard</button>
+    </form>
+    <div class="hint" style="text-align:center;margin-top:16px;">Akun admin dibuat lewat Firebase Authentication — lihat README.md</div>
+  </div>
+</div>
+
+<!-- ================= APP SHELL ================= -->
+<div class="shell" id="appScreen" style="display:none;">
+  <aside class="sidebar" id="sidebar">
+    <div class="brand">
+      <div class="brand-mark">A</div>
+      <div>
+        <div class="brand-name">ALIPSTORE</div>
+        <div class="brand-sub">ADMIN PANEL</div>
+      </div>
+    </div>
+
+    <div class="nav-section-label">Menu</div>
+    <div class="nav-item active" data-section="dashboard">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="7" height="9" rx="1.5"/><rect x="14" y="3" width="7" height="5" rx="1.5"/><rect x="14" y="12" width="7" height="9" rx="1.5"/><rect x="3" y="16" width="7" height="5" rx="1.5"/></svg>
+      Dashboard
+    </div>
+    <div class="nav-item" data-section="products">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M20 7 12 3 4 7v10l8 4 8-4V7Z"/><path d="M4 7l8 4 8-4"/><path d="M12 11v10"/></svg>
+      Kelola Produk
+    </div>
+    <div class="nav-item" data-section="gallery">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="9" r="1.7"/><path d="m21 15-5-5L5 21"/></svg>
+      Galeri Media
+    </div>
+    <div class="nav-item" data-section="orders">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+      Pesanan
+    </div>
+    <div class="nav-item" data-section="settings">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.6a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1Z"/></svg>
+      Pengaturan
+    </div>
+
+    <div class="sidebar-foot">
+      <div class="admin-chip">
+        <div class="admin-avatar" id="adminAvatar">A</div>
+        <div>
+          <div class="admin-name">Admin</div>
+          <div class="admin-email" id="adminEmail">-</div>
+        </div>
+      </div>
+      <button class="logout-btn" id="logoutBtn">Keluar</button>
+    </div>
+  </aside>
+
+  <main class="main">
+    <div class="topbar">
+      <div style="display:flex;align-items:center;gap:12px;">
+        <button class="mobile-menu-btn" id="mobileMenuBtn">☰</button>
+        <div>
+          <div class="page-title" id="pageTitle">Dashboard</div>
+          <div class="page-sub" id="pageSub">Ringkasan performa ALIPSTORE</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== DASHBOARD ===== -->
+    <section class="section active" id="section-dashboard">
+      <div class="grid stat-grid">
+        <div class="card stat-card">
+          <div class="stat-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M20 7 12 3 4 7v10l8 4 8-4V7Z"/></svg></div>
+          <div class="stat-value" id="statTotalProducts">0</div>
+          <div class="stat-label">Total Produk</div>
+        </div>
+        <div class="card stat-card">
+          <div class="stat-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="8" r="4"/><path d="M4 21v-1a8 8 0 0 1 16 0v1"/></svg></div>
+          <div class="stat-value" id="statUid">0</div>
+          <div class="stat-label">Total UID Free Fire</div>
+        </div>
+        <div class="card stat-card">
+          <div class="stat-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg></div>
+          <div class="stat-value" id="statScript">0</div>
+          <div class="stat-label">Total Script</div>
+        </div>
+        <div class="card stat-card">
+          <div class="stat-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M20 6 9 17l-5-5"/></svg></div>
+          <div class="stat-value" id="statAvailable">0</div>
+          <div class="stat-label">Produk Tersedia</div>
+        </div>
+        <div class="card stat-card">
+          <div class="stat-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M18 6 6 18M6 6l12 12"/></svg></div>
+          <div class="stat-value" id="statSold">0</div>
+          <div class="stat-label">Produk Terjual</div>
+        </div>
+        <div class="card stat-card">
+          <div class="stat-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/><path d="M3 6h18"/></svg></div>
+          <div class="stat-value" id="statOrders">0</div>
+          <div class="stat-label">Total Pesanan</div>
+        </div>
+      </div>
+
+      <div class="panel">
+        <div class="panel-head"><h3>Pesanan Terbaru</h3></div>
+        <div class="panel-body" style="padding:0;">
+          <table>
+            <thead><tr><th>Produk</th><th>Pembeli</th><th>Harga</th><th>Status</th></tr></thead>
+            <tbody id="recentOrdersBody"></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== PRODUCTS ===== -->
+    <section class="section" id="section-products">
+      <div class="toolbar">
+        <input class="search-input" id="productSearch" placeholder="Cari nama produk...">
+        <select class="select-sm" id="productCategoryFilter">
+          <option value="">Semua Kategori</option>
+          <option value="uid">UID Free Fire</option>
+          <option value="script">Script</option>
+          <option value="tools">Tools Digital</option>
+          <option value="other">Produk Lainnya</option>
+        </select>
+        <button class="btn btn-primary" id="addProductBtn">+ Tambah Produk</button>
+      </div>
+      <div class="panel">
+        <div class="panel-body" style="padding:0;overflow:auto;">
+          <table>
+            <thead><tr><th>Foto</th><th>Nama</th><th>Kategori</th><th>Harga</th><th>Status</th><th>Label</th><th>Aksi</th></tr></thead>
+            <tbody id="productsBody"></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== GALLERY ===== -->
+    <section class="section" id="section-gallery">
+      <div class="panel">
+        <div class="panel-body">
+          <div class="upload-zone" id="galleryDropzone">
+            <div style="font-size:14px;font-weight:600;margin-bottom:4px;">Klik atau seret foto ke sini</div>
+            <div class="hint">JPG/PNG/WebP, maksimal 5MB per foto. Bisa pilih banyak sekaligus.</div>
+            <input type="file" id="galleryUploadInput" accept="image/*" multiple hidden>
+          </div>
+          <div class="gallery-grid" id="galleryGrid"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== ORDERS ===== -->
+    <section class="section" id="section-orders">
+      <div class="panel">
+        <div class="panel-body" style="padding:0;overflow:auto;">
+          <table>
+            <thead><tr><th>Produk</th><th>Pembeli</th><th>Harga</th><th>Channel</th><th>Status</th><th>Waktu</th></tr></thead>
+            <tbody id="ordersBody"></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== SETTINGS ===== -->
+    <section class="section" id="section-settings">
+      <div class="panel" style="max-width:620px;">
+        <div class="panel-head"><h3>Banner & Kontak Toko</h3></div>
+        <div class="panel-body">
+          <form id="settingsForm">
+            <div class="field">
+              <label>Judul Banner Beranda</label>
+              <input type="text" id="set-bannerTitle" placeholder="Marketplace Digital Premium">
+            </div>
+            <div class="field">
+              <label>Sub-judul Banner</label>
+              <input type="text" id="set-bannerSub" placeholder="UID Free Fire, script, dan tools digital pilihan">
+            </div>
+            <div class="field">
+              <label>Foto Banner</label>
+              <div style="display:flex;gap:10px;align-items:center;">
+                <img id="set-bannerPreview" src="" style="width:70px;height:44px;border-radius:7px;object-fit:cover;border:1px solid var(--line);background:var(--panel-raised);">
+                <button type="button" class="btn btn-sm" id="set-pickBanner">Pilih dari Galeri</button>
+              </div>
+              <input type="hidden" id="set-bannerImage">
+            </div>
+            <div class="field-row">
+              <div class="field">
+                <label>Nomor WhatsApp Admin</label>
+                <input type="text" id="set-whatsapp" placeholder="6285840840520">
+              </div>
+              <div class="field">
+                <label>Username Telegram</label>
+                <input type="text" id="set-telegram" placeholder="Alipgg61">
+              </div>
+            </div>
+            <button class="btn btn-primary" id="settingsSaveBtn" type="submit">Simpan Pengaturan</button>
+          </form>
+        </div>
+      </div>
+    </section>
+  </main>
+</div>
+
+<!-- ================= PRODUCT MODAL ================= -->
+<div class="overlay" id="productOverlay">
+  <div class="modal">
+    <div class="modal-head">
+      <h3 id="productModalTitle">Tambah Produk</h3>
+      <div class="modal-close" id="productModalClose">&times;</div>
+    </div>
+    <form id="productForm">
+      <div class="modal-body">
+        <div class="field">
+          <label>Foto Produk</label>
+          <div style="display:flex;gap:10px;align-items:center;">
+            <img id="pf-imagePreview" src="" style="width:64px;height:64px;border-radius:9px;object-fit:cover;border:1px solid var(--line);background:var(--panel-raised);">
+            <button type="button" class="btn btn-sm" id="pf-pickImage">Pilih dari Galeri</button>
+          </div>
+          <input type="hidden" id="pf-image">
+        </div>
+        <div class="field">
+          <label>Nama Produk</label>
+          <input type="text" id="pf-name" placeholder="Contoh: UID Free Fire Bundle Grandmaster" required>
+        </div>
+        <div class="field-row">
+          <div class="field">
+            <label>Kategori</label>
+            <select id="pf-category">
+              <option value="uid">UID Free Fire</option>
+              <option value="script">Script</option>
+              <option value="tools">Tools Digital</option>
+              <option value="other">Produk Lainnya</option>
+            </select>
+          </div>
+          <div class="field">
+            <label>Status</label>
+            <select id="pf-status">
+              <option value="available">Tersedia</option>
+              <option value="sold">Terjual</option>
+            </select>
+          </div>
+        </div>
+        <div class="field-row">
+          <div class="field">
+            <label>Harga (Rp)</label>
+            <input type="number" id="pf-price" min="0" placeholder="150000" required>
+          </div>
+          <div class="field">
+            <label>Harga Diskon (opsional)</label>
+            <input type="number" id="pf-discount" min="0" placeholder="99000">
+          </div>
+        </div>
+        <div class="field">
+          <label>Deskripsi Produk</label>
+          <textarea id="pf-desc" placeholder="Jelaskan detail produk..."></textarea>
+        </div>
+        <div class="field">
+          <label>Label (opsional)</label>
+          <input type="text" id="pf-label" placeholder="Terbaru / Populer / Diskon">
+        </div>
+        <div class="switch-row">
+          <div>
+            <div style="font-size:13px;font-weight:500;">Tandai sebagai Produk Unggulan</div>
+            <div class="hint">Muncul di bagian unggulan halaman beranda</div>
+          </div>
+          <label class="switch"><input type="checkbox" id="pf-featured"><span class="track"></span></label>
+        </div>
+
+        <div id="scriptFields" style="display:none;margin-top:6px;border-top:1px solid var(--line);padding-top:14px;">
+          <div style="font-size:12.5px;font-weight:600;color:var(--cyan);margin-bottom:10px;">Detail Script</div>
+          <div class="field-row">
+            <div class="field">
+              <label>Bahasa Pemrograman</label>
+              <input type="text" id="pf-lang" placeholder="Python, JavaScript, dll">
+            </div>
+            <div class="field">
+              <label>Versi</label>
+              <input type="text" id="pf-version" placeholder="v1.0.0">
+            </div>
+          </div>
+          <div class="field">
+            <label>Kompatibilitas</label>
+            <input type="text" id="pf-compat" placeholder="Windows / Linux / Termux, dll">
+          </div>
+          <div class="field">
+            <label>Panduan Instalasi</label>
+            <textarea id="pf-install" placeholder="Langkah-langkah instalasi..."></textarea>
+          </div>
+        </div>
+      </div>
+      <div class="modal-foot">
+        <button type="button" class="btn" id="productCancelBtn">Batal</button>
+        <button type="submit" class="btn btn-primary" id="productSaveBtn">Simpan Produk</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- ================= GALLERY PICKER MODAL ================= -->
+<div class="overlay" id="galleryPickerOverlay">
+  <div class="modal" style="max-width:640px;">
+    <div class="modal-head">
+      <h3>Pilih Foto dari Galeri</h3>
+      <div class="modal-close" id="galleryPickerClose">&times;</div>
+    </div>
+    <div class="modal-body">
+      <div class="upload-zone" style="padding:16px;" onclick="document.getElementById('galleryPickerUploadInput').click()">
+        <div class="hint">Klik untuk upload foto baru, lalu pilih dari grid di bawah</div>
+        <input type="file" id="galleryPickerUploadInput" accept="image/*" multiple hidden>
+      </div>
+      <div class="gallery-grid" id="pickerGalleryGrid"></div>
+    </div>
+  </div>
+</div>
+
+<div class="toast-wrap" id="toastWrap"></div>
+
+<script type="module" src="js/app.js"></script>
+</body>
+</html>
