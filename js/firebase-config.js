@@ -5,13 +5,14 @@
 // Nilai-nilai ini AMAN untuk ditaruh di frontend (bukan secret key server),
 // keamanan sebenarnya diatur lewat Firestore/Storage Security Rules.
 // ===================================================================
-export const firebaseConfig = {
-  apiKey: "GANTI_DENGAN_API_KEY",
-  authDomain: "GANTI_DENGAN_PROJECT.firebaseapp.com",
-  projectId: "GANTI_DENGAN_PROJECT_ID",
-  storageBucket: "GANTI_DENGAN_PROJECT.appspot.com",
-  messagingSenderId: "GANTI_DENGAN_SENDER_ID",
-  appId: "GANTI_DENGAN_APP_ID"
+const firebaseConfig = {
+  apiKey: "AIzaSyA-aJN6URep5JLr6kD_B7BOcS4my0eE8rU",
+  authDomain: "alipwebsite.firebaseapp.com",
+  projectId: "alipwebsite",
+  storageBucket: "alipwebsite.firebasestorage.app",
+  messagingSenderId: "986121502670",
+  appId: "1:986121502670:web:76dd389a6f366086eeb59f"
+};
 };
 
 // Info kontak toko dipakai oleh web user (admin app hanya referensi)
