@@ -5,13 +5,14 @@
 // Nilai-nilai ini AMAN untuk ditaruh di frontend (bukan secret key server),
 // keamanan sebenarnya diatur lewat Firestore/Storage Security Rules.
 // ===================================================================
-const firebaseConfig = {
+export const firebaseConfig = {
   apiKey: "AIzaSyA-aJN6URep5JLr6kD_B7BOcS4my0eE8rU",
   authDomain: "alipwebsite.firebaseapp.com",
   projectId: "alipwebsite",
   storageBucket: "alipwebsite.firebasestorage.app",
   messagingSenderId: "986121502670",
   appId: "1:986121502670:web:76dd389a6f366086eeb59f"
+};
 };
 };
 
